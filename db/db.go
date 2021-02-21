@@ -54,5 +54,5 @@ func Close() {
 
 // マイグレーション
 func autoMigration() {
-	db.AutoMigrate(&entity.Book{})
+	db.AutoMigrate(&entity.User{})
 }

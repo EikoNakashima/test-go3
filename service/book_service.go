@@ -3,53 +3,81 @@ package book
 import (
 	"github.com/EikoNakashima/test-go3/db"
 	"github.com/EikoNakashima/test-go3/entity"
+	"github.com/gin-gonic/gin"
 )
 
+// Service procides user's behavior
 type Service struct{}
 
-type book entity.Book
+// User is alias of entity.User struct
+type User entity.User
 
-type Parameter struct {
-	title    string
-	category int
-	author   string
-}
-
-// 検索
-func (s Service) Search(title string, category int, author string) ([]Book, error) {
-
-	// DB接続
+// GetAll is get all User
+func (s Service) GetAll() ([]User, error) {
 	db := db.GetDB()
+	var u []User
 
-	// 本モデルから作成
-	var book []Book
-
-	// パラメータセット
-	p := Parameter{title, category, author}
-
-	// DB接続確認
-	if err := db.Take(&book).Error; err != nil {
+	if err := db.Find(&u).Error; err != nil {
 		return nil, err
 	}
 
-	// 本検索クエリ
-	tx := db
-	tx = tx.Find(&book)
+	return u, nil
+}
 
-	// タイトル
-	if p.title != "" {
-		tx = tx.Where("title = ?", p.title).Find(&book)
+// CreateModel is create User model
+func (s Service) CreateModel(c *gin.Context) (User, error) {
+	db := db.GetDB()
+	var u User
+
+	if err := c.BindJSON(&u); err != nil {
+		return u, err
 	}
 
-	// カテゴリ
-	if p.category != 0 {
-		tx = tx.Where("category = ?", p.category).Find(&book)
+	if err := db.Create(&u).Error; err != nil {
+		return u, err
 	}
 
-	// 著者
-	if p.author != "" {
-		tx = tx.Where("author = ?", p.author).Find(&book)
+	return u, nil
+}
+
+// GetByID is get a User
+func (s Service) GetByID(id string) (User, error) {
+	db := db.GetDB()
+	var u User
+
+	if err := db.Where("id = ?", id).First(&u).Error; err != nil {
+		return u, err
 	}
 
-	return book, nil
+	return u, nil
+}
+
+// UpdateByID is update a User
+func (s Service) UpdateByID(id string, c *gin.Context) (User, error) {
+	db := db.GetDB()
+	var u User
+
+	if err := db.Where("id = ?", id).First(&u).Error; err != nil {
+		return u, err
+	}
+
+	if err := c.BindJSON(&u); err != nil {
+		return u, err
+	}
+
+	db.Save(&u)
+
+	return u, nil
+}
+
+// DeleteByID is delete a User
+func (s Service) DeleteByID(id string) error {
+	db := db.GetDB()
+	var u User
+
+	if err := db.Where("id = ?", id).Delete(&u).Error; err != nil {
+		return err
+	}
+
+	return nil
 }
