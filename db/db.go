@@ -7,7 +7,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/joho/godotenv"
 
-	"github.com/sample/sample-go-api/entity"
+	"github.com/EikoNakashima/test-go3/entity"
 )
 
 var (

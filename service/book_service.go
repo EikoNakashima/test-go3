@@ -2,7 +2,7 @@ package book
 
 import (
 	"github.com/EikoNakashima/test-go3/db"
-	"github.com/sample/sample-go-api/entity"
+	"github.com/EikoNakashima/test-go3/entity"
 )
 
 type Service struct{}

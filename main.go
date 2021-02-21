@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/sample/sample-go-api/db"
-	"github.com/sample/sample-go-api/server"
+	"github.com/EikoNakashima/test-go3/db"
+	"github.com/EikoNakashima/test-go3/server"
 )
 
 func main() {

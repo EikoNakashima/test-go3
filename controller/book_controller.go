@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	book "github.com/sample/sample-go-api/service"
+	book "github.com/EikoNakashima/test-go3/service"
 )
 
 type Controller struct{}
